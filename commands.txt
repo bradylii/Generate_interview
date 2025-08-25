@@ -1,0 +1,41 @@
+Note: the ngrok link will reset if this server is closed. So command + shift + h to replace 
+all with new link or to the local server http://127.0.0.1:8000
+
+* Curl commands to try:
+
+Health check
+curl https://ec09c14b90e1.ngrok-free.app/healthcheck
+
+Delete all
+curl -X DELETE https://ec09c14b90e1.ngrok-free.app/api/aliens
+
+Get all
+curl https://ec09c14b90e1.ngrok-free.app/api/aliens | jq
+
+Add Aliens
+curl -X POST https://ec09c14b90e1.ngrok-free.app/api/aliens \
+-H "Content-Type: application/json" \
+-d '[
+  {"name": "Zorgon", "type": "warrior", "hp": 100, "atk": 50, "spd": 25},
+  {"name": "Xyra", "type": "mage", "hp": 80, "atk": 40, "spd": 30},
+  {"name": "Blarg", "type": "warrior", "hp": 60, "atk": 70, "spd": 20},
+  {"name": "Mira", "type": "scout", "hp": 50, "atk": 25, "spd": 60}
+]'
+
+Add Alien
+curl -X POST https://ec09c14b90e1.ngrok-free.app/api/aliens \
+-H "Content-Type: application/json" \
+-d '[{"name": "Zmann", "type": "warrior", "hp": 150, "atk": 50, "spd": 25}]'
+
+Filter by minHP
+curl "https://ec09c14b90e1.ngrok-free.app/api/aliens?hp_gte=70" | jq
+
+Filter by type
+curl "https://ec09c14b90e1.ngrok-free.app/api/aliens?type=warrior" | jq
+
+Filter by both type and minHP
+curl "https://ec09c14b90e1.ngrok-free.app/api/aliens?type=warrior&hp_gte=70" | jq
+
+Filter by 40 <= atck <= 60
+curl "https://ec09c14b90e1.ngrok-free.app/api/aliens?atk_gte=40&atk_lte=60" | jq
+
