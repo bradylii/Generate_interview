@@ -1,0 +1,66 @@
+Track 1: ngrok Challenge
+You are the alien leader of an advancing invasion fleet, and your species has catalogued thousands of intelligent life forms across the galaxy for strategic assessment.
+You are tasked with implementing a robust database API to store, retrieve, and filter alien species data.
+You need to build a server to handle storing and retrieving alien data. The server should support:
+
+GET /healthcheck
+We will query this endpoint to determine if your server is alive and ready to receive connections.
+
+POST /api/aliens
+We will query this endpoint to send alien data. The alien model is DetailedAlien, outlined in the API specification, and the aliens will be sent in an array.
+
+GET /api/aliens
+We will query this endpoint to retrieve alien data. This should support the following filters as query parameters:
+"spd_lte"
+"spd_gte"
+"atk_lte"
+"atk_gte"
+"hp_gte"
+"hp_lte"
+"type"
+
+DELETE /api/aliens
+We will query this endpoint at the beginning of every test to clear your alien data. This is on setup, not on teardown.
+
+To submit your attempt, expose your server using ngrok and submit that URL. Read the ngrok documentation here:
+
+
+
+* Curl commands to try:
+
+Health check
+curl https://bfb4324429d3.ngrok-free.app/healthcheck
+
+Delete all
+curl -X DELETE https://bfb4324429d3.ngrok-free.app/api/aliens
+
+Get all
+curl https://bfb4324429d3.ngrok-free.app0/api/aliens | jq
+
+Add Aliens
+curl -X POST https://bfb4324429d3.ngrok-free.app/api/aliens \
+-H "Content-Type: application/json" \
+-d '[
+  {"name": "Zorgon", "type": "warrior", "hp": 100, "atk": 50, "spd": 25},
+  {"name": "Xyra", "type": "mage", "hp": 80, "atk": 40, "spd": 30},
+  {"name": "Blarg", "type": "warrior", "hp": 60, "atk": 70, "spd": 20},
+  {"name": "Mira", "type": "scout", "hp": 50, "atk": 25, "spd": 60}
+]'
+
+Add Alien
+curl -X POST https://bfb4324429d3.ngrok-free.app/api/aliens \
+-H "Content-Type: application/json" \
+-d '[{"name": "Zmann", "type": "warrior", "hp": 150, "atk": 50, "spd": 25}]'
+
+Filter by minHP
+curl "https://bfb4324429d3.ngrok-free.app/api/aliens?hp_gte=70" | jq
+
+Filter by type
+curl "https://bfb4324429d3.ngrok-free.app/api/aliens?type=warrior" | jq
+
+Filter by both type and minHP
+curl "https://bfb4324429d3.ngrok-free.app/api/aliens?type=warrior&hp_gte=70" | jq
+
+Filter by 40 <= atck <= 60
+curl "https://bfb4324429d3.ngrok-free.app/api/aliens?atk_gte=40&atk_lte=60" | jq
+
